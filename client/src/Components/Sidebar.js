@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-import { FiAlignRight, FiBell } from "react-icons/fi";
+import { FiBell } from "react-icons/fi";
 import { FiHome } from "react-icons/fi";
 import { FiBookmark } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
@@ -40,7 +40,7 @@ const Sidebar = () => {
 };
 
 const Wrapper = styled.div`
-  /* background-color: lightblue; */
+  background-color: lightblue;
   display: flex;
   flex-direction: column;
   height: 100vh;
