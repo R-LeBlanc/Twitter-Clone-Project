@@ -10,21 +10,39 @@ import Sidebar from "./Components/Sidebar";
 
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
+import { CurrentUserContext } from "./Components/CurrentUserContext";
+
+import loadingBackground from "./assets/critterLoading.jpg";
 
 function App() {
+  // console.log("App running");
+  const {
+    state,
+    actions: { recieveUserInfoFromServer },
+  } = React.useContext(CurrentUserContext);
+
+  console.log(state);
+
   return (
-    <Wrapper>
+    <>
       <GlobalStyles />
-      <Sidebar />
-      <Routes>
-        <Route exact path="/" element={<HomeFeed />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/bookmarks" element={<Bookmarks />} />
-        <Route path="/tweet/:tweetId" element={<TweetDetails />} />
-        {/* MAKE SURE TO REPLACE THIS WITH "/:profileId" */}
-        <Route path="/profile/abc" element={<Profile />} />
-      </Routes>
-    </Wrapper>
+      {state.loading && (
+        <Loading>Loading! don't get your whiskers in a knot!</Loading>
+      )}
+      {!state.loading && (
+        <Wrapper>
+          <Sidebar />
+          <Routes>
+            <Route exact path="/" element={<HomeFeed />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/bookmarks" element={<Bookmarks />} />
+            <Route path="/tweet/:tweetId" element={<TweetDetails />} />
+            {/* MAKE SURE TO REPLACE THIS WITH "/:profileId" */}
+            <Route path="/:profileId" element={<Profile />} />
+          </Routes>
+        </Wrapper>
+      )}
+    </>
   );
 }
 
@@ -32,4 +50,14 @@ export default App;
 
 const Wrapper = styled.div`
   display: flex;
+`;
+
+const Loading = styled.div`
+  background-image: url(${loadingBackground});
+  color: white;
+  display: flex;
+  font-size: 4rem;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 `;

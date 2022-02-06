@@ -22,7 +22,7 @@ const Sidebar = () => {
         <FiHome style={{ marginRight: "20px" }} /> Home
       </LinkComponent>
 
-      <LinkComponent to="/profile/abc">
+      <LinkComponent to="/:profileId">
         <FiUser style={{ marginRight: "20px" }} />
         Profile
       </LinkComponent>
@@ -32,7 +32,7 @@ const Sidebar = () => {
         Notifications
       </LinkComponent>
 
-      <LinkComponent to="Bookmarks">
+      <LinkComponent to="bookmarks">
         <FiBookmark style={{ marginRight: "20px" }} /> Bookmarks
       </LinkComponent>
     </Wrapper>
@@ -40,7 +40,6 @@ const Sidebar = () => {
 };
 
 const Wrapper = styled.div`
-  background-color: lightblue;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -69,7 +68,7 @@ const LinkComponent = styled(NavLink)`
   }
 
   &:hover {
-    background-color: #e8deff;
+    background-color: ${COLORS.secondary};
     color: ${COLORS.primary};
   }
 
