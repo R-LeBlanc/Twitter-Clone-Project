@@ -1,4 +1,6 @@
 export const COLORS = {
   primary: "hsl(258deg, 100%, 50%)",
-  secondary: "#e8deff",
+  primaryLight: "#e8deff",
+  secondary: "#99FEFF",
+  tertiary: "#e3e3e3",
 };

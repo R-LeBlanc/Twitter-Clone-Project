@@ -2,14 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { CurrentUserProvider } from "./Components/CurrentUserContext";
+import { TweetProvider } from "./Components/TweetContext";
 
 import App from "./App";
 
 ReactDOM.render(
   <CurrentUserProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <TweetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </TweetProvider>
   </CurrentUserProvider>,
   document.getElementById("root")
 );

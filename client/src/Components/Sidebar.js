@@ -14,27 +14,33 @@ import { COLORS } from "../constants";
 const Sidebar = () => {
   return (
     <Wrapper>
-      <LogoWrapper>
-        <LogoComponent />
-      </LogoWrapper>
+      <SecondaryWrapper>
+        <LogoWrapper>
+          <LogoComponent />
+        </LogoWrapper>
 
-      <LinkComponent to="/">
-        <FiHome style={{ marginRight: "20px" }} /> Home
-      </LinkComponent>
+        <LinkComponent to="/">
+          <FiHome style={{ marginRight: "20px" }} /> Home
+        </LinkComponent>
 
-      <LinkComponent to="/:profileId">
-        <FiUser style={{ marginRight: "20px" }} />
-        Profile
-      </LinkComponent>
+        <LinkComponent to="/:profileId">
+          <FiUser style={{ marginRight: "20px" }} />
+          Profile
+        </LinkComponent>
 
-      <LinkComponent to="/notifications">
-        <FiBell style={{ marginRight: "20px" }} />
-        Notifications
-      </LinkComponent>
+        <LinkComponent to="/notifications">
+          <FiBell style={{ marginRight: "20px" }} />
+          Notifications
+        </LinkComponent>
 
-      <LinkComponent to="bookmarks">
-        <FiBookmark style={{ marginRight: "20px" }} /> Bookmarks
-      </LinkComponent>
+        <LinkComponent to="bookmarks">
+          <FiBookmark style={{ marginRight: "20px" }} /> Bookmarks
+        </LinkComponent>
+
+        <Meow>
+          <p>Meow</p>
+        </Meow>
+      </SecondaryWrapper>
     </Wrapper>
   );
 };
@@ -44,7 +50,14 @@ const Wrapper = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 200px;
+  min-width: 200px;
   margin: 0 20px 0 100px;
+  padding-right: 20px;
+`;
+
+const SecondaryWrapper = styled.div`
+  position: fixed;
+  width: 170px;
 `;
 
 const LogoWrapper = styled.div`
@@ -68,13 +81,24 @@ const LinkComponent = styled(NavLink)`
   }
 
   &:hover {
-    background-color: ${COLORS.secondary};
+    background-color: ${COLORS.primaryLight};
     color: ${COLORS.primary};
   }
 
   &.active {
     color: ${COLORS.primary};
   }
+`;
+
+const Meow = styled.div`
+  background-color: ${COLORS.primary};
+  border-radius: 30px;
+  color: white;
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 15px 0;
 `;
 
 export default Sidebar;

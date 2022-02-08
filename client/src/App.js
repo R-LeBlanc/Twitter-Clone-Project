@@ -11,6 +11,7 @@ import Sidebar from "./Components/Sidebar";
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
 import { CurrentUserContext } from "./Components/CurrentUserContext";
+import { COLORS } from "./constants";
 
 import loadingBackground from "./assets/critterLoading.jpg";
 
@@ -21,13 +22,22 @@ function App() {
     actions: { recieveUserInfoFromServer },
   } = React.useContext(CurrentUserContext);
 
-  console.log(state);
+  // console.log(state.loading);
 
   return (
     <>
       <GlobalStyles />
+      {/* <Loading>
+        <div></div>
+        <div></div>
+      </Loading> */}
       {state.loading && (
-        <Loading>Loading! don't get your whiskers in a knot!</Loading>
+        <LoadingWrapper>
+          <Loading>
+            <div></div>
+            <div></div>
+          </Loading>
+        </LoadingWrapper>
       )}
       {!state.loading && (
         <Wrapper>
@@ -52,12 +62,43 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-const Loading = styled.div`
-  background-image: url(${loadingBackground});
-  color: white;
+const LoadingWrapper = styled.div`
   display: flex;
-  font-size: 4rem;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100vw;
+`;
+
+const Loading = styled.div`
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+
+div {
+  position: absolute;
+  border: 4px solid ${COLORS.primary};
+  opacity: 1;
+  border-radius: 50%;
+  animation: Loading 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+&:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes Loading {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
 `;
