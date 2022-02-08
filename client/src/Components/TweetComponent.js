@@ -16,11 +16,14 @@ const TweetComponent = ({ loading }) => {
     actions: { recieveTweetsFromServer },
   } = React.useContext(TweetContext);
   // const history = useHistory();
-  console.log(state);
+  // console.log(state);
 
-  const handleClickTweet = (id) => {
-    console.log(id);
-    navigate(`/tweet/${id}`);
+  const handleClickTweet = (event, id, displayName) => {
+    // console.log(event.target.innerHTML);
+    // console.log(displayName);
+    if (event.target.innerHTML !== displayName) {
+      navigate(`/tweet/${id}`);
+    }
   };
 
   return (
@@ -37,7 +40,15 @@ const TweetComponent = ({ loading }) => {
         (state.homeFeedIds
           ? state.homeFeedIds.map((id) => {
               return (
-                <Tweet onClick={() => handleClickTweet(id)}>
+                <Tweet
+                  onClick={(event) =>
+                    handleClickTweet(
+                      event,
+                      id,
+                      state.homeFeedTweets[id].author.displayName
+                    )
+                  }
+                >
                   {/* <LinkComponent to={`/tweet/${id}`}> */}
                   {state.homeFeedTweets[id].retweetFrom ? (
                     <Retweet>

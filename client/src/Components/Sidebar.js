@@ -10,8 +10,14 @@ import { FiUser } from "react-icons/fi";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { COLORS } from "../constants";
+import { CurrentUserContext } from "./CurrentUserContext";
 
 const Sidebar = () => {
+  const {
+    state,
+    actions: { recieveUserInfoFromServer },
+  } = React.useContext(CurrentUserContext);
+  console.log(state.currentUser.handle);
   return (
     <Wrapper>
       <SecondaryWrapper>
@@ -23,7 +29,7 @@ const Sidebar = () => {
           <FiHome style={{ marginRight: "20px" }} /> Home
         </LinkComponent>
 
-        <LinkComponent to="/:profileId">
+        <LinkComponent to={`/${state.currentUser.handle}`}>
           <FiUser style={{ marginRight: "20px" }} />
           Profile
         </LinkComponent>

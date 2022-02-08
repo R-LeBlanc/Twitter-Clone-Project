@@ -1,15 +1,29 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { format } from "date-fns";
 
 const Header = ({ avatarSrc, displayName, userName, timeStamp }) => {
   //   console.log(format(new Date(timeStamp), "LLL do"));
+  let navigate = useNavigate();
+
+  const handleClickProfile = (userName) => {
+    // console.log(userName);
+    navigate(`/${userName}`);
+  };
+
   return (
     <Wrapper>
       <Avatar src={avatarSrc} />
       <Name>
-        <DisplayName>{displayName}</DisplayName>
+        <DisplayName
+          // might be able to us NavLink here insterad of the onClick
+          onClick={() => handleClickProfile(userName)}
+        >
+          {displayName}
+        </DisplayName>
         <Username>@{userName}</Username>
         <TimeStamp>{format(new Date(timeStamp), "LLL do")}</TimeStamp>
       </Name>
@@ -42,7 +56,13 @@ const DisplayName = styled.div`
   font-size: 15px;
   /* line-height: 20px; */
   font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
+
+const LinkComponent = styled(NavLink)``;
 
 const Username = styled.div`
   font-size: 0.8rem;

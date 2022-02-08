@@ -11,7 +11,7 @@ const Post = ({ loading }) => {
     actions: { recieveUserInfoFromServer },
   } = React.useContext(CurrentUserContext);
 
-  console.log(state.loading);
+  // console.log(state.loading);
 
   //   const handleClickPost = (post) => {
   //       const request = {
