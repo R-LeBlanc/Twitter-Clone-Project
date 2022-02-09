@@ -18,26 +18,41 @@ const Post = ({ loading }) => {
   } = React.useContext(TweetContext);
 
   const [post, setPost] = React.useState(null);
+  const [counter, setCounter] = React.useState(280);
+  const seed = 280;
+  // creat a function that counts down from 280 for every
+  // character in the text area
+  // use regex with the \s quantifier to ignore all white
+  // space(new lines, spaces, tabs) ex. /\s/g
+  const characterCounter = (event) => {
+    let textArray = event.target.value.replace(/\s/g, "").length;
+    console.log(textArray);
+    setCounter(seed - textArray);
+    return counter;
+  };
 
   const onPostChange = (event) => {
-    // console.log(event.target.value);
     setPost(event.target.value);
+    // call characterCounter here
+    characterCounter(event);
   };
 
   const handleClickPost = () => {
-    console.log(post);
-    const request = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status: post }),
-    };
-    fetch("/api/tweet", request)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    if (characterCounter > 0) {
+      const request = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: post }),
+      };
+      fetch("/api/tweet", request).then((res) => res.json());
+      // .then((data) => {
+      //   console.log(data);
+      // });
+    } else {
+      alert("Please keep your message under 280 characters");
+    }
   };
 
   // console.log(state);
@@ -63,6 +78,13 @@ const Post = ({ loading }) => {
               cols="55"
               onChange={onPostChange}
             ></WritingArea>
+            <Counter
+              style={{
+                color: counter < 0 ? "red" : counter <= 55 ? "#ffbf33" : "",
+              }}
+            >
+              {counter}
+            </Counter>
             <Submit
               type="submit"
               onClick={(event) => handleClickPost(event.target.value)}
@@ -91,9 +113,13 @@ const Avatar = styled.img`
 `;
 
 const WritingArea = styled.textarea`
-  /* border: none; */
+  border: none;
   font-size: 1rem;
   resize: none;
+`;
+
+const Counter = styled.div`
+  color: lightgray;
 `;
 
 const Submit = styled.button``;

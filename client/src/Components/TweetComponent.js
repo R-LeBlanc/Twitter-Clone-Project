@@ -15,8 +15,6 @@ const TweetComponent = ({ loading }) => {
     tweetState,
     tweetActions: { recieveTweetsFromServer },
   } = React.useContext(TweetContext);
-  // const history = useHistory();
-  // console.log(state);
 
   const handleClickTweet = (event, id, displayName) => {
     // console.log(event.target.innerHTML);
@@ -43,7 +41,7 @@ const TweetComponent = ({ loading }) => {
           ? tweetState.homeFeedIds.map((id) => {
               return (
                 // can't have nested Links, so create an onCLick event that
-                // will use "useNavigate" to direct the user to the TweetDetails page
+                // with use "useNavigate" to direct the user to the TweetDetails page
                 <Tweet
                   onClick={(event) =>
                     handleClickTweet(
@@ -77,7 +75,6 @@ const TweetComponent = ({ loading }) => {
                     ""
                   )}
                   <ActionBar />
-                  {/* </LinkComponent> */}
                 </Tweet>
               );
             })
