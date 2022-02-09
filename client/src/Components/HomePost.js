@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { COLORS } from "../constants";
 import { TweetContext } from "./TweetContext";
 import { CurrentUserContext } from "./CurrentUserContext";
+import { ProfileContext } from "./ProfileContext";
 
 const Post = ({ loading }) => {
   const {
@@ -11,19 +12,35 @@ const Post = ({ loading }) => {
     actions: { recieveUserInfoFromServer },
   } = React.useContext(CurrentUserContext);
 
-  // console.log(state.loading);
+  const {
+    tweetState,
+    tweetActions: { recieveTweetsFromServer },
+  } = React.useContext(TweetContext);
 
-  //   const handleClickPost = (post) => {
-  //       const request = {
-  //           methos: "POST",
-  //           headers: {
-  //               "Content-Type": "appliction/json"
-  //           },
-  //           body: JSON.stringify({
+  const [post, setPost] = React.useState(null);
 
-  //           })
-  //       }
-  //   }
+  const onPostChange = (event) => {
+    // console.log(event.target.value);
+    setPost(event.target.value);
+  };
+
+  const handleClickPost = () => {
+    console.log(post);
+    const request = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: post }),
+    };
+    fetch("/api/tweet", request)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  // console.log(state);
 
   return (
     <Wrapper>
@@ -39,16 +56,20 @@ const Post = ({ loading }) => {
         <>
           <Title>Home</Title>
           <Avatar src={state.currentUser.avatarSrc} />
-          <WritingArea
-            placeholder="What's happening?"
-            rows="10"
-            cols="55"
-          ></WritingArea>
-          <Submit
-          //   onClick={(event) => handleClickPost(event.target.value)}
-          >
-            Meow
-          </Submit>
+          <form>
+            <WritingArea
+              placeholder="What's happening?"
+              rows="10"
+              cols="55"
+              onChange={onPostChange}
+            ></WritingArea>
+            <Submit
+              type="submit"
+              onClick={(event) => handleClickPost(event.target.value)}
+            >
+              Meow
+            </Submit>
+          </form>
         </>
       )}
     </Wrapper>
@@ -70,6 +91,8 @@ const Avatar = styled.img`
 `;
 
 const WritingArea = styled.textarea`
+  /* border: none; */
+  font-size: 1rem;
   resize: none;
 `;
 

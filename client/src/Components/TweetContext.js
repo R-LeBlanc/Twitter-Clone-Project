@@ -7,22 +7,22 @@ const initialState = {
   homeFeedIds: null,
 };
 
-function reducer(state, action) {
-  switch (action.type) {
+function reducer(tweetState, tweetAction) {
+  switch (tweetAction.type) {
     case "recieve-tweets-from-server": {
       return {
-        ...state,
-        homeFeedTweets: action.tweetsById,
-        homeFeedIds: action.tweetIds,
+        ...tweetState,
+        homeFeedTweets: tweetAction.tweetsById,
+        homeFeedIds: tweetAction.tweetIds,
       };
     }
     default:
-      throw new Error(`Unrecognized action: ${action.type}`);
+      throw new Error(`Unrecognized tweetAction: ${tweetAction.type}`);
   }
 }
 
 export const TweetProvider = ({ children }) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [tweetState, dispatch] = React.useReducer(reducer, initialState);
 
   const recieveTweetsFromServer = (data) => {
     return dispatch({ type: "recieve-tweets-from-server", ...data });
@@ -31,8 +31,8 @@ export const TweetProvider = ({ children }) => {
   return (
     <TweetContext.Provider
       value={{
-        state,
-        actions: { recieveTweetsFromServer },
+        tweetState,
+        tweetActions: { recieveTweetsFromServer },
       }}
     >
       {children}

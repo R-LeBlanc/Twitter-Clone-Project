@@ -3,15 +3,18 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { CurrentUserProvider } from "./Components/CurrentUserContext";
 import { TweetProvider } from "./Components/TweetContext";
+import { ProfileProvider } from "./Components/ProfileContext";
 
 import App from "./App";
 
 ReactDOM.render(
   <CurrentUserProvider>
     <TweetProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ProfileProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ProfileProvider>
     </TweetProvider>
   </CurrentUserProvider>,
   document.getElementById("root")

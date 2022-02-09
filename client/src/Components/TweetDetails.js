@@ -10,22 +10,22 @@ import Header from "./TweetHeader";
 const TweetDetails = () => {
   const { tweetId } = useParams();
   const {
-    state,
-    actions: { recieveTweetsFromServer },
+    tweetState,
+    tweetActions: { recieveTweetsFromServer },
   } = React.useContext(TweetContext);
 
   return (
     <>
       <Tweet>
         <Header
-          avatarSrc={state.homeFeedTweets[tweetId].author.avatarSrc}
-          displayName={state.homeFeedTweets[tweetId].author.displayName}
-          userName={state.homeFeedTweets[tweetId].author.handle}
-          timeStamp={state.homeFeedTweets[tweetId].timestamp}
+          avatarSrc={tweetState.homeFeedTweets[tweetId].author.avatarSrc}
+          displayName={tweetState.homeFeedTweets[tweetId].author.displayName}
+          userName={tweetState.homeFeedTweets[tweetId].author.handle}
+          timeStamp={tweetState.homeFeedTweets[tweetId].timestamp}
         />
-        <Status>{state.homeFeedTweets[tweetId].status}</Status>
-        {state.homeFeedTweets[tweetId].media.length > 0 ? (
-          <Media src={state.homeFeedTweets[tweetId].media[0].url} />
+        <Status>{tweetState.homeFeedTweets[tweetId].status}</Status>
+        {tweetState.homeFeedTweets[tweetId].media.length > 0 ? (
+          <Media src={tweetState.homeFeedTweets[tweetId].media[0].url} />
         ) : (
           ""
         )}

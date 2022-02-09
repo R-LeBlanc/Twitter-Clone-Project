@@ -12,8 +12,8 @@ import Header from "./TweetHeader";
 const TweetComponent = ({ loading }) => {
   let navigate = useNavigate();
   const {
-    state,
-    actions: { recieveTweetsFromServer },
+    tweetState,
+    tweetActions: { recieveTweetsFromServer },
   } = React.useContext(TweetContext);
   // const history = useHistory();
   // console.log(state);
@@ -36,38 +36,43 @@ const TweetComponent = ({ loading }) => {
           </Loading>
         </LoadingWrapper>
       )}
+      {/* Once the data has finished loading in HomeFeed,
+       map through the fetched data and render a tweet fo every "tweetsById" */}
       {!loading &&
-        (state.homeFeedIds
-          ? state.homeFeedIds.map((id) => {
+        (tweetState.homeFeedIds
+          ? tweetState.homeFeedIds.map((id) => {
               return (
+                // can't have nested Links, so create an onCLick event that
+                // will use "useNavigate" to direct the user to the TweetDetails page
                 <Tweet
                   onClick={(event) =>
                     handleClickTweet(
                       event,
                       id,
-                      state.homeFeedTweets[id].author.displayName
+                      tweetState.homeFeedTweets[id].author.displayName
                     )
                   }
                 >
-                  {/* <LinkComponent to={`/tweet/${id}`}> */}
-                  {state.homeFeedTweets[id].retweetFrom ? (
+                  {tweetState.homeFeedTweets[id].retweetFrom ? (
                     <Retweet>
                       <FiRepeat />{" "}
-                      {state.homeFeedTweets[id].retweetFrom.displayName}{" "}
+                      {tweetState.homeFeedTweets[id].retweetFrom.displayName}{" "}
                       Remeowed
                     </Retweet>
                   ) : (
                     ""
                   )}
                   <Header
-                    avatarSrc={state.homeFeedTweets[id].author.avatarSrc}
-                    displayName={state.homeFeedTweets[id].author.displayName}
-                    userName={state.homeFeedTweets[id].author.handle}
-                    timeStamp={state.homeFeedTweets[id].timestamp}
+                    avatarSrc={tweetState.homeFeedTweets[id].author.avatarSrc}
+                    displayName={
+                      tweetState.homeFeedTweets[id].author.displayName
+                    }
+                    userName={tweetState.homeFeedTweets[id].author.handle}
+                    timeStamp={tweetState.homeFeedTweets[id].timestamp}
                   />
-                  <Status>{state.homeFeedTweets[id].status}</Status>
-                  {state.homeFeedTweets[id].media.length > 0 ? (
-                    <Media src={state.homeFeedTweets[id].media[0].url} />
+                  <Status>{tweetState.homeFeedTweets[id].status}</Status>
+                  {tweetState.homeFeedTweets[id].media.length > 0 ? (
+                    <Media src={tweetState.homeFeedTweets[id].media[0].url} />
                   ) : (
                     ""
                   )}
@@ -94,8 +99,6 @@ border: 1px solid ${COLORS.tertiary}
   padding: 15px 30px;
   position: relative;
 `;
-
-const LinkComponent = styled(NavLink)``;
 
 const Retweet = styled.div`
   font-size: 0.7rem;
