@@ -16,6 +16,13 @@ function reducer(tweetState, tweetAction) {
         homeFeedIds: tweetAction.tweetIds,
       };
     }
+    case "recieve-like-info-from-server": {
+      console.log(tweetAction);
+      return {
+        ...tweetState,
+        // isLiked: tweetAction,
+      };
+    }
     default:
       throw new Error(`Unrecognized tweetAction: ${tweetAction.type}`);
   }
@@ -23,16 +30,27 @@ function reducer(tweetState, tweetAction) {
 
 export const TweetProvider = ({ children }) => {
   const [tweetState, dispatch] = React.useReducer(reducer, initialState);
+  // const [isLiked, setIsLiked] = React.useState();
+  const [numOfLikes, setNumOfLikes] = React.useState(null);
 
   const recieveTweetsFromServer = (data) => {
     return dispatch({ type: "recieve-tweets-from-server", ...data });
   };
 
+  const recieveLikeInfoFromServer = (data) => {
+    return dispatch({ type: "recieve-like-info-from-server", ...data });
+  };
+
   return (
     <TweetContext.Provider
       value={{
+        // handleLikeClick,
+        numOfLikes,
+        setNumOfLikes,
+        // isLiked,
+        // setIsLiked,
         tweetState,
-        tweetActions: { recieveTweetsFromServer },
+        tweetActions: { recieveTweetsFromServer, recieveLikeInfoFromServer },
       }}
     >
       {children}

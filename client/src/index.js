@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { CurrentUserProvider } from "./Components/CurrentUserContext";
 import { TweetProvider } from "./Components/TweetContext";
 import { ProfileProvider } from "./Components/ProfileContext";
+import ServerError from "./Components/serverErrorComponent";
 
 import App from "./App";
 

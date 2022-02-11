@@ -12,8 +12,7 @@ import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
 import { CurrentUserContext } from "./Components/CurrentUserContext";
 import { COLORS } from "./constants";
-
-import loadingBackground from "./assets/critterLoading.jpg";
+import ServerError from "./Components/serverErrorComponent";
 
 function App() {
   // console.log("App running");
@@ -23,37 +22,48 @@ function App() {
   } = React.useContext(CurrentUserContext);
 
   // console.log(state.loading);
+  // console.log(state.error);
 
-  return (
-    <>
-      <GlobalStyles />
-      {/* <Loading>
-        <div></div>
-        <div></div>
-      </Loading> */}
-      {state.loading && (
-        <LoadingWrapper>
-          <Loading>
-            <div></div>
-            <div></div>
-          </Loading>
-        </LoadingWrapper>
-      )}
-      {!state.loading && (
-        <Wrapper>
-          <Sidebar />
-          <Routes>
-            <Route exact path="/" element={<HomeFeed />} />
-            <Route path="/notifications" element={<Notifications />} />
-            <Route path="/bookmarks" element={<Bookmarks />} />
-            <Route path="/tweet/:tweetId" element={<TweetDetails />} />
-            {/* MAKE SURE TO REPLACE THIS WITH "/:profileId" */}
-            <Route path="/:profileId" element={<Profile />} />
-          </Routes>
-        </Wrapper>
-      )}
-    </>
-  );
+  if (state.error) {
+    // state.error &&
+    //     (console.log("something went wrong"),
+    //     alert(
+    //       "an error occured"
+    //     ))
+    return <ServerError />;
+  } else {
+    return (
+      <>
+        <GlobalStyles />
+        {
+          state.error &&
+            (console.log("something went wrong"), alert("an error occured"))
+          // <ServerError />
+        }
+        {state.loading && (
+          <LoadingWrapper>
+            <Loading>
+              <div></div>
+              <div></div>
+            </Loading>
+          </LoadingWrapper>
+        )}
+        {!state.loading && (
+          <Wrapper>
+            <Sidebar />
+            <Routes>
+              <Route exact path="/" element={<HomeFeed />} />
+              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/bookmarks" element={<Bookmarks />} />
+              <Route path="/tweet/:tweetId" element={<TweetDetails />} />
+              {/* MAKE SURE TO REPLACE THIS WITH "/:profileId" */}
+              <Route path="/:profileId" element={<Profile />} />
+            </Routes>
+          </Wrapper>
+        )}
+      </>
+    );
+  }
 }
 
 export default App;

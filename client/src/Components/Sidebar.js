@@ -17,7 +17,8 @@ const Sidebar = () => {
     state,
     actions: { recieveUserInfoFromServer },
   } = React.useContext(CurrentUserContext);
-  console.log(state.currentUser.handle);
+  // console.log(state.currentUser.handle);
+
   return (
     <Wrapper>
       <SecondaryWrapper>

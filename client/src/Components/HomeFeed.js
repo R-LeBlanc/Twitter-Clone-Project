@@ -13,10 +13,14 @@ const HomeFeed = () => {
   // Create a tweet component that takes the data for a single Tweet, and renders the appropriate UI
 
   const {
+    isLiked,
+    setIsLiked,
     tweetState,
-    tweetActions: { recieveTweetsFromServer },
+    tweetActions: { recieveTweetsFromServer, recieveLikeInfoFromServer },
   } = React.useContext(TweetContext);
   const [loading, setLoading] = React.useState(true);
+
+  // console.log(tweetState);
 
   React.useEffect(() => {
     fetch("api/me/home-feed")
@@ -24,6 +28,7 @@ const HomeFeed = () => {
       .then((data) => {
         // console.log(data);
         recieveTweetsFromServer(data);
+        // recieveLikeInfoFromServer(data);
         setLoading(false);
       });
   }, []);

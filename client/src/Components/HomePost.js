@@ -26,7 +26,7 @@ const Post = ({ loading }) => {
   // space(new lines, spaces, tabs) ex. /\s/g
   const characterCounter = (event) => {
     let textArray = event.target.value.replace(/\s/g, "").length;
-    console.log(textArray);
+    // console.log(textArray);
     setCounter(seed - textArray);
     return counter;
   };
@@ -38,7 +38,7 @@ const Post = ({ loading }) => {
   };
 
   const handleClickPost = () => {
-    if (characterCounter > 0) {
+    if (counter > 0) {
       const request = {
         method: "POST",
         headers: {
@@ -46,10 +46,11 @@ const Post = ({ loading }) => {
         },
         body: JSON.stringify({ status: post }),
       };
-      fetch("/api/tweet", request).then((res) => res.json());
-      // .then((data) => {
-      //   console.log(data);
-      // });
+      fetch("/api/tweet", request)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
     } else {
       alert("Please keep your message under 280 characters");
     }

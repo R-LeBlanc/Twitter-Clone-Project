@@ -24,6 +24,10 @@ const TweetComponent = ({ loading }) => {
     }
   };
 
+  // const testClick = () => {
+  //   console.log("action bar clicked");
+  // };
+
   return (
     <Wrapper>
       {loading && (
@@ -42,39 +46,41 @@ const TweetComponent = ({ loading }) => {
               return (
                 // can't have nested Links, so create an onCLick event that
                 // with use "useNavigate" to direct the user to the TweetDetails page
-                <Tweet
-                  onClick={(event) =>
-                    handleClickTweet(
-                      event,
-                      id,
-                      tweetState.homeFeedTweets[id].author.displayName
-                    )
-                  }
-                >
-                  {tweetState.homeFeedTweets[id].retweetFrom ? (
-                    <Retweet>
-                      <FiRepeat />{" "}
-                      {tweetState.homeFeedTweets[id].retweetFrom.displayName}{" "}
-                      Remeowed
-                    </Retweet>
-                  ) : (
-                    ""
-                  )}
-                  <Header
-                    avatarSrc={tweetState.homeFeedTweets[id].author.avatarSrc}
-                    displayName={
-                      tweetState.homeFeedTweets[id].author.displayName
+                <Tweet key={id}>
+                  <ClickableArea
+                    onClick={(event) =>
+                      handleClickTweet(
+                        event,
+                        id,
+                        tweetState.homeFeedTweets[id].author.displayName
+                      )
                     }
-                    userName={tweetState.homeFeedTweets[id].author.handle}
-                    timeStamp={tweetState.homeFeedTweets[id].timestamp}
-                  />
-                  <Status>{tweetState.homeFeedTweets[id].status}</Status>
-                  {tweetState.homeFeedTweets[id].media.length > 0 ? (
-                    <Media src={tweetState.homeFeedTweets[id].media[0].url} />
-                  ) : (
-                    ""
-                  )}
-                  <ActionBar />
+                  >
+                    {tweetState.homeFeedTweets[id].retweetFrom ? (
+                      <Retweet>
+                        <FiRepeat />{" "}
+                        {tweetState.homeFeedTweets[id].retweetFrom.displayName}{" "}
+                        Remeowed
+                      </Retweet>
+                    ) : (
+                      ""
+                    )}
+                    <Header
+                      avatarSrc={tweetState.homeFeedTweets[id].author.avatarSrc}
+                      displayName={
+                        tweetState.homeFeedTweets[id].author.displayName
+                      }
+                      userName={tweetState.homeFeedTweets[id].author.handle}
+                      timeStamp={tweetState.homeFeedTweets[id].timestamp}
+                    />
+                    <Status>{tweetState.homeFeedTweets[id].status}</Status>
+                    {tweetState.homeFeedTweets[id].media.length > 0 ? (
+                      <Media src={tweetState.homeFeedTweets[id].media[0].url} />
+                    ) : (
+                      ""
+                    )}
+                  </ClickableArea>
+                  <ActionBar tweet={tweetState.homeFeedTweets[id]} />
                 </Tweet>
               );
             })
@@ -97,6 +103,8 @@ border: 1px solid ${COLORS.tertiary}
   position: relative;
 `;
 
+const ClickableArea = styled.div``;
+
 const Retweet = styled.div`
   font-size: 0.7rem;
   padding-bottom: 15px;
@@ -116,8 +124,8 @@ const Media = styled.img`
 const LoadingWrapper = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  /* align-items: center; */
+  height: 100%;
   /* width: 100vw; */
 `;
 

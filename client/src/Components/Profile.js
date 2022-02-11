@@ -34,7 +34,7 @@ const Profile = () => {
         // console.log(data);
         recieveProfileFromServer(data);
       });
-  }, []);
+  }, [profileId]);
 
   // Fetching the profile owners tweets (including what they've retweeted)
   React.useEffect(() => {
@@ -45,9 +45,9 @@ const Profile = () => {
         recieveProfileTweetsFromServer(data);
         setLoading(false);
       });
-  }, []);
+  }, [profileId]);
 
-  console.log(profileState);
+  // console.log(profileState);
   // console.log(tweetState);
   // Set the profile to render when the data is loaded
   return (
@@ -63,7 +63,7 @@ const Profile = () => {
           <Feed>
             {profileState.tweetIds.map((id) => {
               return (
-                <Tweet>
+                <Tweet key={id}>
                   {profileState.tweets[id].retweetFrom ? (
                     <Retweet>
                       <FiRepeat />{" "}
