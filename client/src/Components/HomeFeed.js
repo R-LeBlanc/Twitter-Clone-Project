@@ -14,14 +14,25 @@ const HomeFeed = () => {
   // Create a tweet component that takes the data for a single Tweet, and renders the appropriate UI
 
   const {
-    isLiked,
-    setIsLiked,
+    // isLiked,
+    // setIsLiked,
     tweetState,
     tweetActions: { recieveTweetsFromServer, recieveLikeInfoFromServer },
   } = React.useContext(TweetContext);
   const [loading, setLoading] = React.useState(true);
 
   // console.log(tweetState);
+  // const [isLiked, setIsLiked] = React.useState({});
+  // const isLiked = [];
+
+  // if (loading === false) {
+  //   tweetState.homeFeedIds.map((id) => {
+  //     console.log({ [id]: false });
+  //     // setIsLiked({ ...isLiked, [id]: false });
+  //     isLiked.push({ [id]: false });
+  //   });
+  // console.log(tweetState.isLiked);
+  // }
 
   React.useEffect(() => {
     fetch("api/me/home-feed")
@@ -29,7 +40,7 @@ const HomeFeed = () => {
       .then((data) => {
         // console.log(data);
         recieveTweetsFromServer(data);
-        // recieveLikeInfoFromServer(data);
+        recieveLikeInfoFromServer(data);
         setLoading(false);
       });
   }, [tweetState]);
@@ -51,9 +62,8 @@ const HomeFeed = () => {
 // };
 
 const Wrapper = styled.div`
-  border-left: 1px solid ${COLORS.tertiary};
+  border-left: 1px solid lightgray;
   flex: 1;
-  /* background-color: lightpink; */
 `;
 
 export default HomeFeed;

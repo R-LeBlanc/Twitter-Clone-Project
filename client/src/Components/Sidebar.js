@@ -98,7 +98,12 @@ const LinkComponent = styled(NavLink)`
 `;
 
 const Meow = styled.div`
-  background-color: ${COLORS.primary};
+  /* background-color: ${COLORS.primary}; */
+  background-image: linear-gradient(
+    45deg,
+    ${COLORS.primary},
+    ${COLORS.secondary}
+  );
   border-radius: 30px;
   color: white;
   display: flex;

@@ -29,24 +29,28 @@ const TweetComponent = ({ loading }) => {
 
   const handleClickLike = (id) => {
     // console.log(id);
+    // in this handler we can perhaps toggle the value of isLiked
+    // based on the id of the tweet that is clicked
+    // tweetState.isLiked[id] = !tweetState.isLiked[id];
+    // console.log(tweetState.isLiked);
     const request = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        like: !tweetState.homeFeedTweets[id].isLiked,
+        like: !tweetState.isLiked[id],
       }),
     };
     fetch(`/api/tweet/${id}/like`, request)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
-
-        if (data.success === true) {
-          recieveLikeInfoFromServer(id);
-          // console.log(tweetState);
-          // console.log(tweetState.homeFeedTweets[id].isLiked);
-        }
+        // if (data.success === true) {
+        // recieveLikeInfoFromServer(id);
+        // console.log(tweetState);
+        // console.log(tweetState.homeFeedTweets[id]);
+        // }
       });
+    // console.log(tweetState.homeFeedTweets[id].isLiked);
   };
 
   return (
@@ -109,6 +113,7 @@ const TweetComponent = ({ loading }) => {
                         handleClickLike(id);
                       }}
                     >
+                      {/* {console.log(tweetState.isLiked[id])} */}
                       <Heart
                         style={{
                           color: tweetState.homeFeedTweets[id].isLiked
@@ -131,6 +136,7 @@ const TweetComponent = ({ loading }) => {
 export default TweetComponent;
 
 const Wrapper = styled.div`
+  border-right: 1px solid lightgray;
   max-width: 80%;
 `;
 
@@ -161,13 +167,25 @@ const Media = styled.img`
 `;
 
 const ActionWrapper = styled.div`
-  display: flex;
   align-items: center;
+  background-color: ${COLORS.secondary};
+  /* background-image: linear-gradient(
+    45deg,
+    ${COLORS.primary},
+    ${COLORS.tertiary}
+  ); */
+  border-radius: 10px;
+  display: flex;
   justify-content: space-around;
-  height: 35px;
+  height: 50px;
+  margin-top: 30px;
 `;
 
-const Heart = styled(FiHeart)``;
+const Heart = styled(FiHeart)`
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 const LikeWrapper = styled.div``;
 

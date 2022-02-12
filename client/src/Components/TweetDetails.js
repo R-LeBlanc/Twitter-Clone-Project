@@ -20,7 +20,7 @@ const TweetDetails = () => {
   } = React.useContext(TweetContext);
 
   return (
-    <>
+    <Wrapper>
       <Tweet>
         <Header
           avatarSrc={tweetState.homeFeedTweets[tweetId].author.avatarSrc}
@@ -52,11 +52,17 @@ const TweetDetails = () => {
         </ActionWrapper>
         {/* <ActionBar tweet={tweetState.homeFeedTweets[tweetId]} /> */}
       </Tweet>
-    </>
+    </Wrapper>
   );
 };
 
 export default TweetDetails;
+
+const Wrapper = styled.div`
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  height: 100vh;
+`;
 
 const Tweet = styled.div`
 border: 1px solid ${COLORS.tertiary}
@@ -77,10 +83,13 @@ const Media = styled.img`
 `;
 
 const ActionWrapper = styled.div`
+  background-color: ${COLORS.secondary};
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  height: 35px;
+  height: 50px;
+  margin-top: 30px;
 `;
 
 const Heart = styled(FiHeart)``;

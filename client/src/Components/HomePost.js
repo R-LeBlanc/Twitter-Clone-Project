@@ -71,27 +71,31 @@ const Post = ({ loading }) => {
       {!state.loading && (
         <>
           <Title>Home</Title>
-          <Avatar src={state.currentUser.avatarSrc} />
           <form>
-            <WritingArea
-              placeholder="What's happening?"
-              rows="10"
-              cols="55"
-              onChange={onPostChange}
-            ></WritingArea>
-            <Counter
-              style={{
-                color: counter < 0 ? "red" : counter <= 55 ? "#ffbf33" : "",
-              }}
-            >
-              {counter}
-            </Counter>
-            <Submit
-              type="submit"
-              onClick={(event) => handleClickPost(event.target.value)}
-            >
-              Meow
-            </Submit>
+            <PostWrapper>
+              <Avatar src={state.currentUser.avatarSrc} />
+              <WritingArea
+                placeholder="What's happening?"
+                rows="10"
+                // cols="55"
+                onChange={onPostChange}
+              ></WritingArea>
+            </PostWrapper>
+            <SubmitWrapper>
+              <Submit
+                type="submit"
+                onClick={(event) => handleClickPost(event.target.value)}
+              >
+                Meow
+              </Submit>
+              <Counter
+                style={{
+                  color: counter < 0 ? "red" : counter <= 55 ? "#ffbf33" : "",
+                }}
+              >
+                {counter}
+              </Counter>
+            </SubmitWrapper>
           </form>
         </>
       )}
@@ -101,29 +105,68 @@ const Post = ({ loading }) => {
 
 export default Post;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  border-bottom: 7px solid lightgray;
+  border-right: 1px solid lightgray;
+  margin: 10px 0;
+  padding: 15px 30px;
+  max-width: 80%;
+`;
 
 const Title = styled.div`
+  /* background-image: linear-gradient(
+    45deg,
+    ${COLORS.primary},
+    ${COLORS.tertiary}
+  ); */
+  /* border-radius: 15px; */
+  /* color: white; */
   font-size: 2rem;
+  border-bottom: 1px solid lightgray;
+  padding: 15px 10px;
+`;
+
+const PostWrapper = styled.div`
+  align-items: flex-start;
+  display: flex;
+  margin-top: 15px;
 `;
 
 const Avatar = styled.img`
   width: 48px;
   height: 48px;
   border-radius: 50%;
+  margin-right: 10px;
 `;
 
 const WritingArea = styled.textarea`
   border: none;
   font-size: 1rem;
   resize: none;
+  width: 80%;
+`;
+
+const SubmitWrapper = styled.div`
+  align-content: flex-end;
+  align-items: center;
+  display: flex;
 `;
 
 const Counter = styled.div`
   color: lightgray;
 `;
 
-const Submit = styled.button``;
+const Submit = styled.button`
+  background-color: ${COLORS.primary};
+  border: none;
+  border-radius: 30px;
+  color: white;
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  margin-right: 20px;
+  padding: 15px 30px;
+`;
 
 const LoadingWrapper = styled.div`
   display: flex;

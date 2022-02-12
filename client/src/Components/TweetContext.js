@@ -5,6 +5,7 @@ export const TweetContext = React.createContext(null);
 const initialState = {
   homeFeedTweets: null,
   homeFeedIds: null,
+  // isLiked = {},
 };
 
 function reducer(tweetState, tweetAction) {
@@ -17,9 +18,17 @@ function reducer(tweetState, tweetAction) {
       };
     }
     case "recieve-like-info-from-server": {
+      // Now we have an object of the isLiked values
+      // that can be called and changed anywhere in the app
+      const isLiked = {};
+      tweetState.homeFeedIds.map((id) => {
+        // console.log({ [id]: false });
+        isLiked[id] = false;
+      });
+      // console.log(isLiked);
       return {
         ...tweetState,
-        id: tweetAction.data,
+        isLiked,
       };
     }
     default:
@@ -29,7 +38,7 @@ function reducer(tweetState, tweetAction) {
 
 export const TweetProvider = ({ children }) => {
   const [tweetState, dispatch] = React.useReducer(reducer, initialState);
-  // const [isLiked, setIsLiked] = React.useState();
+
   const [numOfLikes, setNumOfLikes] = React.useState(null);
 
   const recieveTweetsFromServer = (data) => {

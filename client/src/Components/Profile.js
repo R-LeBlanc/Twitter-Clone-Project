@@ -13,6 +13,9 @@ import { FiMessageCircle } from "react-icons/fi";
 import { FiHeart } from "react-icons/fi";
 import { FiShare } from "react-icons/fi";
 import { FiRepeat } from "react-icons/fi";
+import { FiMapPin } from "react-icons/fi";
+import { FiCalendar } from "react-icons/fi";
+import { format } from "date-fns";
 
 const Profile = () => {
   const { profileId } = useParams();
@@ -52,12 +55,52 @@ const Profile = () => {
     <Wrapper>
       {!loading && (
         <>
+          <Banner src={profileState.profile.bannerSrc} />
           <ProfileHeader>
-            <Banner src={profileState.profile.bannerSrc} />
-            <DisplayName>{profileState.profile.displayName}</DisplayName>
-            <div>{profileState.profile.handle}</div>
-            <div>Profile</div>
+            <DisplayImg src={profileState.profile.avatarSrc} />
+            {profileState.profile.isBeingFollowedByYou ? (
+              <IsFollowingWraper>
+                <DisplayName>{profileState.profile.displayName}</DisplayName>
+                <IsFollowing>Following</IsFollowing>
+              </IsFollowingWraper>
+            ) : (
+              <DisplayName>{profileState.profile.displayName}</DisplayName>
+            )}
+            {profileState.profile.isFollowingYou ? (
+              <HandleWrapper>
+                <Handle>@{profileState.profile.handle}</Handle>
+                <FollowingYou>Follows you</FollowingYou>
+              </HandleWrapper>
+            ) : (
+              <Handle>@{profileState.profile.handle}</Handle>
+            )}
+
+            <Bio>{profileState.profile.bio}</Bio>
+            <LocationWrapper>
+              <Location>
+                <LocationImg /> {profileState.profile.location}
+              </Location>
+              <JoinedDate>
+                {" "}
+                <JoinedImg /> Joined{" "}
+                {format(new Date(profileState.profile.joined), "LLLL yyyy")}
+                {}
+              </JoinedDate>
+            </LocationWrapper>
+            <FollowWrapper>
+              <Following>
+                <strong>{profileState.profile.numFollowing}</strong> Following
+              </Following>
+              <Followers>
+                <strong>{profileState.profile.numFollowers}</strong> Followers
+              </Followers>
+            </FollowWrapper>
           </ProfileHeader>
+          <Tabs>
+            <TweetFeed>Tweets</TweetFeed>
+            <MediaPage>Media</MediaPage>
+            <Likes>Likes</Likes>
+          </Tabs>
           <Feed>
             {profileState.tweetIds.map((id) => {
               return (
@@ -107,20 +150,132 @@ const Profile = () => {
 export default Profile;
 
 const Wrapper = styled.div`
-  border-left: 1px solid ${COLORS.tertiary};
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  max-width: 80%;
+  margin-right: 20%;
 `;
 
 const ProfileHeader = styled.div`
-  max-width: 80%;
+  /* max-width: 100%; */
+  font-size: .9rem;
+  display:flex
+  position: relative;
+  padding-left: 30px;
+  align-content: space-evenly;
 `;
 
 const Banner = styled.img`
-  max-width: 80%;
+  max-width: 100%;
+  max-height: 100%;
+`;
+
+const DisplayImg = styled.img`
+  border: 6px solid white;
+  border-radius: 100%;
+  height: 170px;
+  position: relative;
+  /* left: 5%; */
+  top: -85px;
+  z-index: 5;
+`;
+
+const IsFollowingWraper = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const IsFollowing = styled.div`
+  background-image: linear-gradient(
+    45deg,
+    ${COLORS.primary},
+    ${COLORS.secondary}
+  );
+  border-radius: 30px;
+  color: white;
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  margin-right: 5%;
+  padding: 15px 30px;
 `;
 
 const DisplayName = styled.div`
-  font-size: 1rem;
+  color: black;
+  font-size: 2rem;
 `;
+
+const HandleWrapper = styled.div`
+  display: flex;
+`;
+
+const Handle = styled.div`
+  color: darkgray;
+  margin-right: 10px;
+`;
+
+const FollowingYou = styled.div`
+  background-color: lightgray;
+  border-radius: 10%;
+  font-size: 0.8rem;
+  padding: 1px 5px;
+`;
+
+const Bio = styled.div`
+  margin-top: 15px;
+  font-size: 1.3rem;
+`;
+
+const LocationWrapper = styled.div`
+  display: flex;
+  padding-top: 15px;
+`;
+
+const Location = styled.div`
+  padding-right: 15px;
+`;
+
+const LocationImg = styled(FiMapPin)``;
+
+const JoinedDate = styled.div``;
+
+const JoinedImg = styled(FiCalendar)``;
+
+const FollowWrapper = styled.div`
+  display: flex;
+  padding-top: 15px;
+`;
+
+const Following = styled.div`
+  padding-right: 15px;
+`;
+
+const Followers = styled.div``;
+
+const Tabs = styled.div`
+  /* align-content: space-around; */
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  justify-content: space-around;
+  font-weight: bold;
+  margin-top: 25px;
+  /* width: 100%; */
+
+  div {
+    padding: 0 50px 20px;
+  }
+`;
+
+const TweetFeed = styled.div`
+  border-bottom: 4px solid ${COLORS.primary};
+`;
+
+const MediaPage = styled.div``;
+
+const Likes = styled.div``;
 
 const Feed = styled.div``;
 
@@ -149,10 +304,13 @@ const Media = styled.img`
 `;
 
 const ActionWrapper = styled.div`
-  display: flex;
   align-items: center;
+  background-color: ${COLORS.secondary};
+  border-radius: 10px;
+  display: flex;
   justify-content: space-around;
-  height: 35px;
+  height: 50px;
+  margin-top: 30px;
 `;
 
 const Heart = styled(FiHeart)``;

@@ -21,14 +21,14 @@ function App() {
     actions: { recieveUserInfoFromServer },
   } = React.useContext(CurrentUserContext);
 
-  const {
-    isLiked,
-    setIsLiked,
-    tweetState,
-    tweetActions: { recieveTweetsFromServer, recieveLikeInfoFromServer },
-  } = React.useContext(TweetContext);
+  // const {
+  //   isLiked,
+  //   setIsLiked,
+  //   tweetState,
+  //   tweetActions: { recieveTweetsFromServer, recieveLikeInfoFromServer },
+  // } = React.useContext(TweetContext);
 
-  console.log(tweetState);
+  // console.log(tweetState);
   // console.log(state.error);
 
   if (state.error) {
