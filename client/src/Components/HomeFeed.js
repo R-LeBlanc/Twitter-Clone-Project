@@ -6,6 +6,7 @@ import { CurrentUserContext } from "./CurrentUserContext";
 import { TweetContext } from "./TweetContext";
 import { COLORS } from "../constants";
 import Post from "./HomePost";
+import ServerError from "./serverErrorComponent";
 
 const HomeFeed = () => {
   // TODO: in the API documentation, find the correct endpoint
@@ -31,8 +32,15 @@ const HomeFeed = () => {
         // recieveLikeInfoFromServer(data);
         setLoading(false);
       });
-  }, []);
+  }, [tweetState]);
 
+  // if (tweetState.error) {
+  //   return (
+  //     <>
+  //       <ServerError />
+  //     </>
+  //   );
+  // } else {
   return (
     <Wrapper>
       <Post loading={loading} />
@@ -40,6 +48,7 @@ const HomeFeed = () => {
     </Wrapper>
   );
 };
+// };
 
 const Wrapper = styled.div`
   border-left: 1px solid ${COLORS.tertiary};

@@ -8,6 +8,10 @@ import { ProfileContext } from "./ProfileContext";
 import { TweetContext } from "./TweetContext";
 import Header from "./TweetHeader";
 import ActionBar from "./ActionBar";
+
+import { FiMessageCircle } from "react-icons/fi";
+import { FiHeart } from "react-icons/fi";
+import { FiShare } from "react-icons/fi";
 import { FiRepeat } from "react-icons/fi";
 
 const Profile = () => {
@@ -20,10 +24,6 @@ const Profile = () => {
     },
   } = React.useContext(ProfileContext);
 
-  // const {
-  //   tweetState,
-  //   tweetActions: { recieveTweetsFromServer },
-  // } = React.useContext(TweetContext);
   const [loading, setLoading] = React.useState(true);
 
   // Fetching the profile data from the server
@@ -31,7 +31,6 @@ const Profile = () => {
     fetch(`/api/${profileId}/profile`)
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
         recieveProfileFromServer(data);
       });
   }, [profileId]);
@@ -41,7 +40,6 @@ const Profile = () => {
     fetch(`/api/${profileId}/feed`)
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
         recieveProfileTweetsFromServer(data);
         setLoading(false);
       });
@@ -84,9 +82,18 @@ const Profile = () => {
                   ) : (
                     ""
                   )}
-                  <ActionBar />
-                  {/* {tweetState.homeFeedTweets[id].author.displayName} */}
-                  {/* {profileState.tweets[id].id} */}
+                  <ActionWrapper>
+                    <FiMessageCircle />
+                    <FiRepeat />
+                    <LikeWrapper>
+                      <Heart
+                        style={{
+                          color: profileState.tweets[id].isLiked ? "red" : "",
+                        }}
+                      />
+                    </LikeWrapper>
+                    <FiShare />
+                  </ActionWrapper>
                 </Tweet>
               );
             })}
@@ -140,3 +147,14 @@ const Media = styled.img`
   position: relative;
   left: 60px;
 `;
+
+const ActionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 35px;
+`;
+
+const Heart = styled(FiHeart)``;
+
+const LikeWrapper = styled.div``;

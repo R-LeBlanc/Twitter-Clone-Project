@@ -12,10 +12,13 @@ const LikeButton = ({ size = 35, tweet }) => {
   // const { isLiked } = React.useContext(TweetContext);
   const { tweetState } = React.useContext(TweetContext);
   const heartSize = size * 0.6;
-
+  // now you can use tweetState.isLiked to toggle the heart!!
+  // try accessing the isLiked value by mapping over the array
+  // of tweet ids
+  console.log(tweetState);
   return (
     <Wrapper style={{ width: size, height: size }}>
-      {tweetState.homeFeedTweets[tweet.id].isLiked ? (
+      {tweetState.isLiked ? (
         <ScaleIn>
           <Heart
             width={heartSize}

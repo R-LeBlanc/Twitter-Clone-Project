@@ -17,10 +17,9 @@ function reducer(tweetState, tweetAction) {
       };
     }
     case "recieve-like-info-from-server": {
-      console.log(tweetAction);
       return {
         ...tweetState,
-        // isLiked: tweetAction,
+        id: tweetAction.data,
       };
     }
     default:
@@ -38,7 +37,10 @@ export const TweetProvider = ({ children }) => {
   };
 
   const recieveLikeInfoFromServer = (data) => {
-    return dispatch({ type: "recieve-like-info-from-server", ...data });
+    // console.log("now here");
+    // We're passing the id into recieveLikeInfoFromServer which is not an object
+    // so it cannot be spread "..."
+    return dispatch({ type: "recieve-like-info-from-server", data });
   };
 
   return (

@@ -64,7 +64,6 @@ export const CurrentUserProvider = ({ children }) => {
       })
       .catch((error) => {
         // console.log(state.error);
-        console.log("working");
         errorRecievedFromServer(error);
       });
   }, []);

@@ -7,6 +7,11 @@ import { TweetContext } from "./TweetContext";
 import ActionBar from "./ActionBar";
 import Header from "./TweetHeader";
 
+import { FiMessageCircle } from "react-icons/fi";
+import { FiHeart } from "react-icons/fi";
+import { FiShare } from "react-icons/fi";
+import { FiRepeat } from "react-icons/fi";
+
 const TweetDetails = () => {
   const { tweetId } = useParams();
   const {
@@ -29,7 +34,23 @@ const TweetDetails = () => {
         ) : (
           ""
         )}
-        <ActionBar />
+        <ActionWrapper>
+          <FiMessageCircle />
+          <FiRepeat />
+          <LikeWrapper
+          // onClick={() => {
+          //   handleClickLike(tweetId);
+          // }}
+          >
+            <Heart
+              style={{
+                color: tweetState.homeFeedTweets[tweetId].isLiked ? "red" : "",
+              }}
+            />
+          </LikeWrapper>
+          <FiShare />
+        </ActionWrapper>
+        {/* <ActionBar tweet={tweetState.homeFeedTweets[tweetId]} /> */}
       </Tweet>
     </>
   );
@@ -54,3 +75,14 @@ const Media = styled.img`
   position: relative;
   left: 60px;
 `;
+
+const ActionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 35px;
+`;
+
+const Heart = styled(FiHeart)``;
+
+const LikeWrapper = styled.div``;

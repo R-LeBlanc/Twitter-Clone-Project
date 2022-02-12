@@ -3,30 +3,51 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { FiRepeat } from "react-icons/fi";
 import { COLORS } from "../constants";
 import ActionBar from "./ActionBar";
 import { TweetContext } from "./TweetContext";
 import Header from "./TweetHeader";
 
+import { FiMessageCircle } from "react-icons/fi";
+import { FiHeart } from "react-icons/fi";
+import { FiShare } from "react-icons/fi";
+import { FiRepeat } from "react-icons/fi";
+
 const TweetComponent = ({ loading }) => {
   let navigate = useNavigate();
   const {
     tweetState,
-    tweetActions: { recieveTweetsFromServer },
+    tweetActions: { recieveTweetsFromServer, recieveLikeInfoFromServer },
   } = React.useContext(TweetContext);
 
   const handleClickTweet = (event, id, displayName) => {
     // console.log(event.target.innerHTML);
-    // console.log(displayName);
     if (event.target.innerHTML !== displayName) {
       navigate(`/tweet/${id}`);
     }
   };
 
-  // const testClick = () => {
-  //   console.log("action bar clicked");
-  // };
+  const handleClickLike = (id) => {
+    // console.log(id);
+    const request = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        like: !tweetState.homeFeedTweets[id].isLiked,
+      }),
+    };
+    fetch(`/api/tweet/${id}/like`, request)
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+
+        if (data.success === true) {
+          recieveLikeInfoFromServer(id);
+          // console.log(tweetState);
+          // console.log(tweetState.homeFeedTweets[id].isLiked);
+        }
+      });
+  };
 
   return (
     <Wrapper>
@@ -80,7 +101,25 @@ const TweetComponent = ({ loading }) => {
                       ""
                     )}
                   </ClickableArea>
-                  <ActionBar tweet={tweetState.homeFeedTweets[id]} />
+                  <ActionWrapper>
+                    <FiMessageCircle />
+                    <FiRepeat />
+                    <LikeWrapper
+                      onClick={() => {
+                        handleClickLike(id);
+                      }}
+                    >
+                      <Heart
+                        style={{
+                          color: tweetState.homeFeedTweets[id].isLiked
+                            ? "red"
+                            : "",
+                        }}
+                      />
+                    </LikeWrapper>
+                    <FiShare />
+                  </ActionWrapper>
+                  {/* <ActionBar tweet={tweetState.homeFeedTweets[id]} /> */}
                 </Tweet>
               );
             })
@@ -120,6 +159,17 @@ const Media = styled.img`
   position: relative;
   left: 60px;
 `;
+
+const ActionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 35px;
+`;
+
+const Heart = styled(FiHeart)``;
+
+const LikeWrapper = styled.div``;
 
 const LoadingWrapper = styled.div`
   display: flex;

@@ -21,25 +21,27 @@ function App() {
     actions: { recieveUserInfoFromServer },
   } = React.useContext(CurrentUserContext);
 
-  // console.log(state.loading);
+  const {
+    isLiked,
+    setIsLiked,
+    tweetState,
+    tweetActions: { recieveTweetsFromServer, recieveLikeInfoFromServer },
+  } = React.useContext(TweetContext);
+
+  console.log(tweetState);
   // console.log(state.error);
 
   if (state.error) {
-    // state.error &&
-    //     (console.log("something went wrong"),
-    //     alert(
-    //       "an error occured"
-    //     ))
-    return <ServerError />;
+    return (
+      <>
+        <GlobalStyles />
+        <ServerError />
+      </>
+    );
   } else {
     return (
       <>
         <GlobalStyles />
-        {
-          state.error &&
-            (console.log("something went wrong"), alert("an error occured"))
-          // <ServerError />
-        }
         {state.loading && (
           <LoadingWrapper>
             <Loading>

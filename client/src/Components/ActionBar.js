@@ -16,14 +16,14 @@ const ActionBar = ({ tweet }) => {
     // setIsLiked,
     numOfLikes,
     setNumOfLikes,
-    actions: { recieveLikeInfoFromServer },
+    tweetActions: { recieveLikeInfoFromServer },
   } = React.useContext(TweetContext);
 
   // const [isLiked, setIsLiked] = React.useState()
   // console.log(tweet);
 
   const handleLikeClick = () => {
-    // const [isLiked, setIsLiked] = React.useState(false);
+    // console.log(tweetState);
     // console.log(tweetState.homeFeedTweets[tweet.id].isLiked);
     // console.log(tweet.id);
     // console.log(tweet.isLiked);
@@ -40,11 +40,14 @@ const ActionBar = ({ tweet }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        console.log(tweetState.homeFeedTweets[tweet.id]);
-        console.log(tweet.id);
-        recieveLikeInfoFromServer(data);
+        // console.log(tweetState.homeFeedTweets[tweet.id]);
+        // console.log(tweet.id);
+        if (data.success === true) {
+          recieveLikeInfoFromServer(tweet.id);
+          // console.log(tweetState);
+        }
       });
-
+    // console.log(tweetState);
     // console.log(tweetState.homeFeedTweets[tweet.id].isLiked);
     // console.log(tweet.id);
   };
