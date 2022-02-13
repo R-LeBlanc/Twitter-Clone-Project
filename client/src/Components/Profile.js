@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { COLORS } from "../constants";
 import { ProfileContext } from "./ProfileContext";
@@ -21,6 +22,7 @@ import ScaleIn from "./LikeButton/ScaleIn";
 
 const Profile = () => {
   const { profileId } = useParams();
+  let navigate = useNavigate();
   const {
     profileState,
     profileActions: {
@@ -30,6 +32,13 @@ const Profile = () => {
   } = React.useContext(ProfileContext);
 
   const [loading, setLoading] = React.useState(true);
+
+  const handleClickTweet = (event, id, displayName) => {
+    // console.log(event.target.innerHTML);
+    if (event.target.innerHTML !== displayName) {
+      navigate(`/tweet/${id}`);
+    }
+  };
 
   // Fetching the profile data from the server
   React.useEffect(() => {
@@ -107,27 +116,38 @@ const Profile = () => {
             {profileState.tweetIds.map((id) => {
               return (
                 <Tweet key={id}>
-                  {profileState.tweets[id].retweetFrom ? (
-                    <Retweet>
-                      <FiRepeat />{" "}
-                      {profileState.tweets[id].retweetFrom.displayName} Remeowed
-                    </Retweet>
-                  ) : (
-                    ""
-                  )}
-                  <Header
-                    avatarSrc={profileState.tweets[id].author.avatarSrc}
-                    displayName={profileState.tweets[id].author.displayName}
-                    userName={profileState.tweets[id].author.handle}
-                    timeStamp={profileState.tweets[id].timestamp}
-                  />
+                  <ClickableArea
+                    onClick={(event) =>
+                      handleClickTweet(
+                        event,
+                        id,
+                        profileState.tweets[id].author.displayName
+                      )
+                    }
+                  >
+                    {profileState.tweets[id].retweetFrom ? (
+                      <Retweet>
+                        <FiRepeat />{" "}
+                        {profileState.tweets[id].retweetFrom.displayName}{" "}
+                        Remeowed
+                      </Retweet>
+                    ) : (
+                      ""
+                    )}
+                    <Header
+                      avatarSrc={profileState.tweets[id].author.avatarSrc}
+                      displayName={profileState.tweets[id].author.displayName}
+                      userName={profileState.tweets[id].author.handle}
+                      timeStamp={profileState.tweets[id].timestamp}
+                    />
 
-                  <Status>{profileState.tweets[id].status}</Status>
-                  {profileState.tweets[id].media.length > 0 ? (
-                    <Media src={profileState.tweets[id].media[0].url} />
-                  ) : (
-                    ""
-                  )}
+                    <Status>{profileState.tweets[id].status}</Status>
+                    {profileState.tweets[id].media.length > 0 ? (
+                      <Media src={profileState.tweets[id].media[0].url} />
+                    ) : (
+                      ""
+                    )}
+                  </ClickableArea>
                   <ActionWrapper>
                     <FiMessageCircle />
                     <FiRepeat />
@@ -273,6 +293,7 @@ const Tabs = styled.div`
   }
 `;
 
+// **************** Profile Feed*******************************
 const TweetFeed = styled.div`
   border-bottom: 4px solid ${COLORS.primary};
 `;
@@ -290,6 +311,8 @@ const Tweet = styled.div`
   padding: 15px 30px;
   position: relative;
 `;
+
+const ClickableArea = styled.div``;
 
 const Retweet = styled.div`
   font-size: 0.7rem;

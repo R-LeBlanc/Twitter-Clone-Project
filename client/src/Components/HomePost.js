@@ -14,7 +14,7 @@ const Post = ({ loading }) => {
 
   const {
     tweetState,
-    tweetActions: { recieveTweetsFromServer },
+    tweetActions: { recieveTweetsFromServer, errorRecievedFromServer },
   } = React.useContext(TweetContext);
 
   const [post, setPost] = React.useState(null);
@@ -47,16 +47,23 @@ const Post = ({ loading }) => {
         body: JSON.stringify({ status: post }),
       };
       fetch("/api/tweet", request)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
+        .then((res) => {
+          if (!res.ok) {
+            throw res;
+          }
+          return res.json();
+        })
+        // .then((data) => {
+        //   // console.log(data);
+        // });
+        .catch((error) => {
+          // console.log(state.error);
+          errorRecievedFromServer(error);
         });
     } else {
       alert("Please keep your message under 280 characters");
     }
   };
-
-  // console.log(state);
 
   return (
     <Wrapper>
