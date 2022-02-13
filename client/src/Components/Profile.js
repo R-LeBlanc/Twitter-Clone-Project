@@ -35,7 +35,7 @@ const Profile = () => {
 
   const handleClickTweet = (event, id, displayName) => {
     // console.log(event.target.innerHTML);
-    if (event.target.innerHTML !== displayName || event.key === "Enter") {
+    if (event.target.innerHTML !== displayName && event.key === "Enter") {
       navigate(`/tweet/${id}`);
     }
   };

@@ -32,8 +32,8 @@ const TweetComponent = ({ loading }) => {
   const handleClickLike = (id) => {
     // in this handler we can perhaps toggle the value of isLiked
     // based on the id of the tweet that is clicked
-    // tweetState.isLiked[id] = !tweetState.isLiked[id];
     // console.log(tweetState.isLiked);
+
     const request = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -51,7 +51,25 @@ const TweetComponent = ({ loading }) => {
         // console.log(tweetState.homeFeedTweets[id]);
         // }
       });
-    // console.log(tweetState.homeFeedTweets[id].isLiked);
+  };
+
+  const handlePressLike = (event, id) => {
+    // in this handler we can perhaps toggle the value of isLiked
+    // based on the id of the tweet that is clicked
+    tweetState.isLiked[id] = !tweetState.isLiked[id];
+    // console.log(tweetState.isLiked);
+    if (event.key === "Enter") {
+      const request = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          like: !tweetState.homeFeedTweets[id].isLiked,
+        }),
+      };
+      fetch(`/api/tweet/${id}/like`, request)
+        .then((res) => res.json())
+        .then((data) => {});
+    }
   };
 
   return (
@@ -115,6 +133,9 @@ const TweetComponent = ({ loading }) => {
                     <FiRepeat tabIndex={0} />
                     <LikeWrapper
                       tabIndex={0}
+                      onKeyPress={(event) => {
+                        handlePressLike(event, id);
+                      }}
                       onClick={() => {
                         handleClickLike(id);
                       }}
