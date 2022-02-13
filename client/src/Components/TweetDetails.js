@@ -6,11 +6,13 @@ import { useParams } from "react-router-dom";
 import { TweetContext } from "./TweetContext";
 import ActionBar from "./ActionBar";
 import Header from "./TweetHeader";
+import ScaleIn from "./LikeButton/ScaleIn";
 
 import { FiMessageCircle } from "react-icons/fi";
 import { FiHeart } from "react-icons/fi";
 import { FiShare } from "react-icons/fi";
 import { FiRepeat } from "react-icons/fi";
+import { MdFavorite } from "react-icons/md";
 
 const TweetDetails = () => {
   const { tweetId } = useParams();
@@ -42,11 +44,13 @@ const TweetDetails = () => {
           //   handleClickLike(tweetId);
           // }}
           >
-            <Heart
-              style={{
-                color: tweetState.homeFeedTweets[tweetId].isLiked ? "red" : "",
-              }}
-            />
+            {tweetState.homeFeedTweets[tweetId].isLiked ? (
+              <ScaleIn>
+                <HeartFull style={{ color: `${COLORS.tertiary}` }} />
+              </ScaleIn>
+            ) : (
+              <Heart />
+            )}
           </LikeWrapper>
           <FiShare />
         </ActionWrapper>
@@ -90,6 +94,10 @@ const ActionWrapper = styled.div`
   justify-content: space-around;
   height: 50px;
   margin-top: 30px;
+`;
+
+const HeartFull = styled(MdFavorite)`
+  font-size: 25px;
 `;
 
 const Heart = styled(FiHeart)``;

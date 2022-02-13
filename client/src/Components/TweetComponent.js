@@ -7,11 +7,13 @@ import { COLORS } from "../constants";
 import ActionBar from "./ActionBar";
 import { TweetContext } from "./TweetContext";
 import Header from "./TweetHeader";
+import ScaleIn from "./LikeButton/ScaleIn";
 
 import { FiMessageCircle } from "react-icons/fi";
 import { FiHeart } from "react-icons/fi";
 import { FiShare } from "react-icons/fi";
 import { FiRepeat } from "react-icons/fi";
+import { MdFavorite } from "react-icons/md";
 
 const TweetComponent = ({ loading }) => {
   let navigate = useNavigate();
@@ -114,13 +116,13 @@ const TweetComponent = ({ loading }) => {
                       }}
                     >
                       {/* {console.log(tweetState.isLiked[id])} */}
-                      <Heart
-                        style={{
-                          color: tweetState.homeFeedTweets[id].isLiked
-                            ? "red"
-                            : "",
-                        }}
-                      />
+                      {tweetState.homeFeedTweets[id].isLiked ? (
+                        <ScaleIn>
+                          <HeartFull style={{ color: `${COLORS.tertiary}` }} />
+                        </ScaleIn>
+                      ) : (
+                        <Heart />
+                      )}
                     </LikeWrapper>
                     <FiShare />
                   </ActionWrapper>
@@ -179,6 +181,13 @@ const ActionWrapper = styled.div`
   justify-content: space-around;
   height: 50px;
   margin-top: 30px;
+`;
+
+const HeartFull = styled(MdFavorite)`
+  font-size: 25px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Heart = styled(FiHeart)`

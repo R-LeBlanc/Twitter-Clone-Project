@@ -16,6 +16,8 @@ import { FiRepeat } from "react-icons/fi";
 import { FiMapPin } from "react-icons/fi";
 import { FiCalendar } from "react-icons/fi";
 import { format } from "date-fns";
+import { MdFavorite } from "react-icons/md";
+import ScaleIn from "./LikeButton/ScaleIn";
 
 const Profile = () => {
   const { profileId } = useParams();
@@ -129,11 +131,13 @@ const Profile = () => {
                     <FiMessageCircle />
                     <FiRepeat />
                     <LikeWrapper>
-                      <Heart
-                        style={{
-                          color: profileState.tweets[id].isLiked ? "red" : "",
-                        }}
-                      />
+                      {profileState.tweets[id].isLiked ? (
+                        <ScaleIn>
+                          <HeartFull style={{ color: `${COLORS.tertiary}` }} />
+                        </ScaleIn>
+                      ) : (
+                        <Heart />
+                      )}
                     </LikeWrapper>
                     <FiShare />
                   </ActionWrapper>
@@ -164,6 +168,7 @@ const ProfileHeader = styled.div`
   display:flex
   position: relative;
   padding-left: 30px;
+  padding-right: 5%;
   align-content: space-evenly;
 `;
 
@@ -177,7 +182,6 @@ const DisplayImg = styled.img`
   border-radius: 100%;
   height: 170px;
   position: relative;
-  /* left: 5%; */
   top: -85px;
   z-index: 5;
 `;
@@ -199,7 +203,6 @@ const IsFollowing = styled.div`
   display: flex;
   font-weight: bold;
   justify-content: center;
-  margin-right: 5%;
   padding: 15px 30px;
 `;
 
@@ -311,6 +314,10 @@ const ActionWrapper = styled.div`
   justify-content: space-around;
   height: 50px;
   margin-top: 30px;
+`;
+
+const HeartFull = styled(MdFavorite)`
+  font-size: 25px;
 `;
 
 const Heart = styled(FiHeart)``;
