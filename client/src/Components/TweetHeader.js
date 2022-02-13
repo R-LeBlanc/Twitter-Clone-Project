@@ -19,6 +19,8 @@ const Header = ({ avatarSrc, displayName, userName, timeStamp }) => {
       <Avatar src={avatarSrc} />
       <Name>
         <DisplayName
+          tabIndex={0}
+          onKeyPress={() => handleClickProfile(userName)}
           // might be able to us NavLink here insterad of the onClick
           onClick={() => handleClickProfile(userName)}
         >

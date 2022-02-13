@@ -23,14 +23,13 @@ const TweetComponent = ({ loading }) => {
   } = React.useContext(TweetContext);
 
   const handleClickTweet = (event, id, displayName) => {
-    // console.log(event.target.innerHTML);
-    if (event.target.innerHTML !== displayName) {
+    // console.log(event.key);
+    if (event.target.innerHTML !== displayName || event.key === "Enter") {
       navigate(`/tweet/${id}`);
     }
   };
 
   const handleClickLike = (id) => {
-    // console.log(id);
     // in this handler we can perhaps toggle the value of isLiked
     // based on the id of the tweet that is clicked
     // tweetState.isLiked[id] = !tweetState.isLiked[id];
@@ -39,7 +38,7 @@ const TweetComponent = ({ loading }) => {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        like: !tweetState.isLiked[id],
+        like: !tweetState.homeFeedTweets[id].isLiked,
       }),
     };
     fetch(`/api/tweet/${id}/like`, request)
@@ -75,6 +74,10 @@ const TweetComponent = ({ loading }) => {
                 // with use "useNavigate" to direct the user to the TweetDetails page
                 <Tweet key={id}>
                   <ClickableArea
+                    tabIndex={0}
+                    onKeyPress={(event) => {
+                      handleClickTweet(event, id);
+                    }}
                     onClick={(event) =>
                       handleClickTweet(
                         event,
@@ -107,24 +110,30 @@ const TweetComponent = ({ loading }) => {
                       ""
                     )}
                   </ClickableArea>
-                  <ActionWrapper>
-                    <FiMessageCircle />
-                    <FiRepeat />
+                  <ActionWrapper tabIndex={0}>
+                    <FiMessageCircle tabIndex={0} />
+                    <FiRepeat tabIndex={0} />
                     <LikeWrapper
+                      tabIndex={0}
                       onClick={() => {
                         handleClickLike(id);
                       }}
                     >
                       {/* {console.log(tweetState.isLiked[id])} */}
                       {tweetState.homeFeedTweets[id].isLiked ? (
-                        <ScaleIn>
-                          <HeartFull style={{ color: `${COLORS.tertiary}` }} />
-                        </ScaleIn>
+                        <>
+                          <ScaleIn>
+                            <HeartFull
+                              style={{ color: `${COLORS.tertiary}` }}
+                            />
+                          </ScaleIn>
+                          <NumOfLikes>1</NumOfLikes>
+                        </>
                       ) : (
                         <Heart />
                       )}
                     </LikeWrapper>
-                    <FiShare />
+                    <FiShare tabIndex={0} />
                   </ActionWrapper>
                   {/* <ActionBar tweet={tweetState.homeFeedTweets[id]} /> */}
                 </Tweet>
@@ -183,6 +192,8 @@ const ActionWrapper = styled.div`
   margin-top: 30px;
 `;
 
+const NumOfLikes = styled.div``;
+
 const HeartFull = styled(MdFavorite)`
   font-size: 25px;
   &:hover {
@@ -196,7 +207,9 @@ const Heart = styled(FiHeart)`
   }
 `;
 
-const LikeWrapper = styled.div``;
+const LikeWrapper = styled.div`
+  display: flex;
+`;
 
 const LoadingWrapper = styled.div`
   display: flex;

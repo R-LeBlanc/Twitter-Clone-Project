@@ -36,7 +36,7 @@ const TweetDetails = () => {
 
   return (
     <Wrapper>
-      <Tweet>
+      <Tweet tabIndex={0}>
         {/* <Header
           avatarSrc={tweetState.homeFeedTweets[tweetId].author.avatarSrc}
           displayName={tweetState.homeFeedTweets[tweetId].author.displayName}
@@ -47,6 +47,7 @@ const TweetDetails = () => {
           <Avatar src={tweetState.homeFeedTweets[tweetId].author.avatarSrc} />
           <Name>
             <DisplayName
+              tabIndex={0}
               // might be able to us NavLink here insterad of the onClick
               onClick={() =>
                 handleClickProfile(
@@ -74,13 +75,14 @@ const TweetDetails = () => {
           )}{" "}
           Critter web app
         </TimeStamp>
-        <ActionWrapper>
-          <FiMessageCircle />
-          <FiRepeat />
+        <ActionWrapper tabIndex={0}>
+          <FiMessageCircle tabIndex={0} />
+          <FiRepeat tabIndex={0} />
           <LikeWrapper
-          // onClick={() => {
-          //   handleClickLike(tweetId);
-          // }}
+            tabIndex={0}
+            // onClick={() => {
+            //   handleClickLike(tweetId);
+            // }}
           >
             {tweetState.homeFeedTweets[tweetId].isLiked ? (
               <ScaleIn>
@@ -90,7 +92,7 @@ const TweetDetails = () => {
               <Heart />
             )}
           </LikeWrapper>
-          <FiShare />
+          <FiShare tabIndex={0} />
         </ActionWrapper>
       </Tweet>
     </Wrapper>

@@ -35,7 +35,7 @@ const Profile = () => {
 
   const handleClickTweet = (event, id, displayName) => {
     // console.log(event.target.innerHTML);
-    if (event.target.innerHTML !== displayName) {
+    if (event.target.innerHTML !== displayName || event.key === "Enter") {
       navigate(`/tweet/${id}`);
     }
   };
@@ -117,6 +117,10 @@ const Profile = () => {
               return (
                 <Tweet key={id}>
                   <ClickableArea
+                    tabIndex={0}
+                    onKeyPress={(event) => {
+                      handleClickTweet(event, id);
+                    }}
                     onClick={(event) =>
                       handleClickTweet(
                         event,
@@ -148,19 +152,24 @@ const Profile = () => {
                       ""
                     )}
                   </ClickableArea>
-                  <ActionWrapper>
-                    <FiMessageCircle />
-                    <FiRepeat />
-                    <LikeWrapper>
+                  <ActionWrapper tabIndex={0}>
+                    <FiMessageCircle tabIndex={0} />
+                    <FiRepeat tabIndex={0} />
+                    <LikeWrapper tabIndex={0}>
                       {profileState.tweets[id].isLiked ? (
-                        <ScaleIn>
-                          <HeartFull style={{ color: `${COLORS.tertiary}` }} />
-                        </ScaleIn>
+                        <>
+                          <ScaleIn>
+                            <HeartFull
+                              style={{ color: `${COLORS.tertiary}` }}
+                            />
+                          </ScaleIn>
+                          <NumOfLikes>1</NumOfLikes>
+                        </>
                       ) : (
                         <Heart />
                       )}
                     </LikeWrapper>
-                    <FiShare />
+                    <FiShare tabIndex={0} />
                   </ActionWrapper>
                 </Tweet>
               );
@@ -340,10 +349,14 @@ const ActionWrapper = styled.div`
   margin-top: 30px;
 `;
 
+const NumOfLikes = styled.div``;
+
 const HeartFull = styled(MdFavorite)`
   font-size: 25px;
 `;
 
 const Heart = styled(FiHeart)``;
 
-const LikeWrapper = styled.div``;
+const LikeWrapper = styled.div`
+  display: flex;
+`;
