@@ -93,6 +93,7 @@ const TweetComponent = ({ loading }) => {
                 <Tweet key={id}>
                   <ClickableArea
                     tabIndex={0}
+                    aria-lable="View tweet"
                     onKeyPress={(event) => {
                       handleClickTweet(event, id);
                     }}
@@ -133,6 +134,7 @@ const TweetComponent = ({ loading }) => {
                     <FiRepeat tabIndex={0} />
                     <LikeWrapper
                       tabIndex={0}
+                      aria-lable="Like tweet"
                       onKeyPress={(event) => {
                         handlePressLike(event, id);
                       }}

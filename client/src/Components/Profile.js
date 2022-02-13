@@ -118,6 +118,7 @@ const Profile = () => {
                 <Tweet key={id}>
                   <ClickableArea
                     tabIndex={0}
+                    aria-lable="View tweet"
                     onKeyPress={(event) => {
                       handleClickTweet(event, id);
                     }}
