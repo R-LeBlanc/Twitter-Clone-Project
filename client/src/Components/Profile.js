@@ -121,6 +121,7 @@ const Profile = () => {
                     userName={profileState.tweets[id].author.handle}
                     timeStamp={profileState.tweets[id].timestamp}
                   />
+
                   <Status>{profileState.tweets[id].status}</Status>
                   {profileState.tweets[id].media.length > 0 ? (
                     <Media src={profileState.tweets[id].media[0].url} />
