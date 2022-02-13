@@ -14,10 +14,12 @@ const HomeFeed = () => {
   // Create a tweet component that takes the data for a single Tweet, and renders the appropriate UI
 
   const {
-    // isLiked,
-    // setIsLiked,
     tweetState,
-    tweetActions: { recieveTweetsFromServer, recieveLikeInfoFromServer },
+    tweetActions: {
+      recieveTweetsFromServer,
+      recieveLikeInfoFromServer,
+      errorRecievedFromServer,
+    },
   } = React.useContext(TweetContext);
   const [loading, setLoading] = React.useState(true);
 
@@ -36,30 +38,40 @@ const HomeFeed = () => {
 
   React.useEffect(() => {
     fetch("api/me/home-feed")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res.json();
+      })
       .then((data) => {
         // console.log(data);
         recieveTweetsFromServer(data);
         recieveLikeInfoFromServer(data);
         setLoading(false);
+      })
+      .catch((error) => {
+        errorRecievedFromServer(error);
       });
   }, [tweetState]);
 
-  // if (tweetState.error) {
-  //   return (
-  //     <>
-  //       <ServerError />
-  //     </>
-  //   );
-  // } else {
-  return (
-    <Wrapper>
-      <Post loading={loading} />
-      <TweetComponent loading={loading} />
-    </Wrapper>
-  );
+  // console.log(tweetState.error);
+
+  if (tweetState.error) {
+    return (
+      <>
+        <ServerError />
+      </>
+    );
+  } else {
+    return (
+      <Wrapper>
+        <Post loading={loading} />
+        <TweetComponent loading={loading} />
+      </Wrapper>
+    );
+  }
 };
-// };
 
 const Wrapper = styled.div`
   border-left: 1px solid lightgray;

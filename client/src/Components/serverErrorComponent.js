@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { COLORS } from "../constants";
 
 import { GiBoltBomb } from "react-icons/gi";
+import { GiTrashCan } from "react-icons/gi";
 
 const ServerError = () => {
   return (
@@ -11,9 +12,10 @@ const ServerError = () => {
       <ErrorWrapper>
         <ErrorMessage>An unknown error has occured.</ErrorMessage>
         <SecondaryMessage>
-          Please try refreshing the page, or contact support if the problem
-          persists
+          Please try refreshing the page, or you can speak to our complaint
+          department if the problem persists. It's a trash can!
         </SecondaryMessage>
+        <TrashImg />
       </ErrorWrapper>
     </Wrapper>
   );
@@ -46,4 +48,10 @@ const ErrorMessage = styled.div`
 
 const SecondaryMessage = styled.div`
   font-size: 1.5rem;
+`;
+
+const TrashImg = styled(GiTrashCan)`
+  color: ${COLORS.secondary};
+  font-size: 4rem;
+  margin-top: 30px;
 `;

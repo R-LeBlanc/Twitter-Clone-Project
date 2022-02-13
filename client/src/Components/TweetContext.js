@@ -5,7 +5,7 @@ export const TweetContext = React.createContext(null);
 const initialState = {
   homeFeedTweets: null,
   homeFeedIds: null,
-  // isLiked = {},
+  error: null,
 };
 
 function reducer(tweetState, tweetAction) {
@@ -25,10 +25,16 @@ function reducer(tweetState, tweetAction) {
         // console.log({ [id]: false });
         isLiked[id] = false;
       });
-      // console.log(isLiked);
       return {
         ...tweetState,
         isLiked,
+      };
+    }
+    case "error-recieved-from-server": {
+      return {
+        ...tweetState,
+        loading: false,
+        error: true,
       };
     }
     default:
@@ -52,6 +58,10 @@ export const TweetProvider = ({ children }) => {
     return dispatch({ type: "recieve-like-info-from-server", data });
   };
 
+  const errorRecievedFromServer = (error) => {
+    return dispatch({ type: "error-recieved-from-server", ...error });
+  };
+
   return (
     <TweetContext.Provider
       value={{
@@ -61,7 +71,11 @@ export const TweetProvider = ({ children }) => {
         // isLiked,
         // setIsLiked,
         tweetState,
-        tweetActions: { recieveTweetsFromServer, recieveLikeInfoFromServer },
+        tweetActions: {
+          recieveTweetsFromServer,
+          recieveLikeInfoFromServer,
+          errorRecievedFromServer,
+        },
       }}
     >
       {children}
